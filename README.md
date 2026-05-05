@@ -13,3 +13,4 @@ pnpm dev
 Open http://localhost:3000
 
 Enhanced by BLACKBOXAI for photoreal visuals.
+# portfolio
