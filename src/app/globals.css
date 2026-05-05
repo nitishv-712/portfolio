@@ -1,26 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --red:    #e23636;
+  --red2:   #ff1a1a;
+  --dark:   #06060a;
+  --dark2:  #0d0d14;
+  --card:   rgba(255,255,255,0.03);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: #fff;
+  overflow-x: hidden;
+  /* Subtle noise grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+/* ── Web SVG background ── */
+.web-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+}
+
+/* ── Glow text ── */
+.glow {
+  text-shadow:
+    0 0 20px rgba(226,54,54,0.9),
+    0 0 60px rgba(226,54,54,0.5),
+    0 0 120px rgba(226,54,54,0.2);
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s, background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(226,54,54,0.06), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+.card:hover {
+  border-color: rgba(226,54,54,0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(226,54,54,0.15), 0 0 0 1px rgba(226,54,54,0.1);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── Web draw animation ── */
+@keyframes webDraw {
+  from { stroke-dashoffset: 1000; opacity: 0; }
+  10%  { opacity: 1; }
+  to   { stroke-dashoffset: 0; opacity: 1; }
+}
+.web-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: webDraw 2.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+/* ── Spider spin on load ── */
+@keyframes spiderDrop {
+  0%   { transform: translateY(-120px) rotate(-20deg); opacity: 0; }
+  60%  { transform: translateY(12px) rotate(5deg); opacity: 1; }
+  80%  { transform: translateY(-6px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+@keyframes spiderFloat {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-14px) rotate(1deg); }
+}
+.spider-drop {
+  animation: spiderDrop 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.spider-float {
+  animation: spiderFloat 4s ease-in-out infinite;
+}
+
+/* ── Web string ── */
+@keyframes stringGrow {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+.web-string {
+  transform-origin: top center;
+  animation: stringGrow 0.6s ease forwards;
+}
+
+/* ── Fade up ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* ── Nav ── */
+.nav-blur {
+  backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(6,6,10,0.85);
+  border-bottom: 1px solid rgba(226,54,54,0.15);
+}
+
+/* ── Red divider line ── */
+.red-line {
+  display: inline-block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), transparent);
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+/* ── Skill pill ── */
+.skill-pill {
+  padding: 12px 26px;
+  border: 1px solid rgba(226,54,54,0.25);
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: default;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  background: rgba(226,54,54,0.04);
+  color: rgba(255,255,255,0.8);
+}
+.skill-pill:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(226,54,54,0.35);
+}
+
+/* ── Stat card ── */
+.stat-card {
+  background: rgba(226,54,54,0.06);
+  border: 1px solid rgba(226,54,54,0.2);
+  border-radius: 16px;
+  padding: 28px 20px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  background: rgba(226,54,54,0.12);
+  border-color: var(--red);
+  transform: scale(1.04);
 }
