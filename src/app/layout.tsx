@@ -1,33 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import ParticleField from "@/components/ParticleField";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Peter Parker — Developer Portfolio",
-  description: "Your friendly neighborhood full-stack developer.",
+  title: "Nitish Vishwakarma — Full-Stack Developer",
+  description: "Full-Stack Developer skilled in Node.js, Flutter, and Next.js. Building responsive web and mobile applications.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body>
+        <ParticleField />
+        {children}
+      </body>
     </html>
   );
 }
